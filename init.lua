@@ -7,6 +7,11 @@ vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 
+-- UI Left-Edge Padding & Line Numbers
+vim.opt.number = true          -- Turn on line numbers
+vim.opt.numberwidth = 4        -- Guarantees at least 4 columns of width for numbers
+vim.opt.signcolumn = "yes:1"   -- Adds an extra column next to the numbers for padding
+
 -- Sync Neovim clipboard with System Clipboard
 vim.opt.clipboard = "unnamedplus"
 
@@ -58,22 +63,4 @@ vim.keymap.set("i", "<D-p>", "<C-r>+", { desc = "Paste in insert mode" })
 -- Select All (Cmd+A)
 vim.keymap.set({ "n", "i", "v" }, "<D-a>", "<Esc>ggVG", { desc = "Select all lines" })
 
--- Terminal UI settings: Hide line numbers and auto-enter typing mode
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("custom-term-open", { clear = true }),
-  callback = function()
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.cmd("startinsert")
-  end,
-})
-
--- Open a small terminal pane at the bottom (<Space>st)
-vim.keymap.set("n", "<space>st", function()
-  vim.cmd("new")                    -- Opens horizontal split at the top/bottom
-  vim.cmd.wincmd("J")              -- Forces split to full width at the bottom
-  vim.api.nvim_win_set_height(0, 12) -- Sets terminal height to 12 lines
-  vim.cmd.term()                   -- Starts terminal session
-  vim.cmd("startinsert")            -- Instantly switch to terminal typing mode
-end, { desc = "Open Terminal Pane", nowait = true })
 
